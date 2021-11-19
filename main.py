@@ -1,6 +1,7 @@
 import sys
 from PyQt5 import QtWidgets, QtCore
 from PyQt5.QtWidgets import QMainWindow, QApplication
+from moviepy.editor import *
 
 selected_file_path = ""
 output_file_path = ""
@@ -11,17 +12,24 @@ end_time = 0
 
 def start_subclipping():
     print("Button clicked")
-
+    # Load myHolidays.mp4 and select the subclip 00:00:50 - 00:00:60
+    #clip = VideoFileClip("myHolidays.mp4").subclip(50, 60)
+    # Load selected_file and select the subclip begin_time - end_time
+    clip = VideoFileClip(selected_file_path[0]).subclip(begin_time, end_time)
+    video = CompositeVideoClip([clip])
+    # Write the result to a file (many options available !)
+    # video.write_videofile("myHolidays_edited.webm")
+    video.write_videofile(output_file_path + "/" + output_file_name + ".webm")
 
 def select_file():
     global selected_file_path
-    selected_file_path = QtWidgets.QFileDialog.getOpenFileName(None, 'Open file', '/home')
+    selected_file_path = QtWidgets.QFileDialog.getOpenFileName(None, 'Open file', '.')
     print(selected_file_path)
 
 
 def select_directory():
     global output_file_path
-    output_file_path = QtWidgets.QFileDialog.getExistingDirectory(None, 'Open file', '/home')
+    output_file_path = QtWidgets.QFileDialog.getExistingDirectory(None, 'Open file', '.')
     print(output_file_path)
 
 
