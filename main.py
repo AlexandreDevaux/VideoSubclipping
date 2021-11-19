@@ -9,13 +9,17 @@ output_file_name = ""
 begin_time = 0
 end_time = 0
 
+# HH:MM:SS to seconds
+def convert_time(time):
+    time = time.split(":")
+    return int(time[0]) * 3600 + int(time[1]) * 60 + int(time[2])
 
 def start_subclipping():
     print("Button clicked")
     # Load myHolidays.mp4 and select the subclip 00:00:50 - 00:00:60
     #clip = VideoFileClip("myHolidays.mp4").subclip(50, 60)
     # Load selected_file and select the subclip begin_time - end_time
-    clip = VideoFileClip(selected_file_path[0]).subclip(begin_time, end_time)
+    clip = VideoFileClip(selected_file_path[0]).subclip(convert_time(begin_time), convert_time(end_time))
     video = CompositeVideoClip([clip])
     # Write the result to a file (many options available !)
     # video.write_videofile("myHolidays_edited.webm")
